@@ -1,4 +1,6 @@
-import Tkinter as tk
+import tkinter as tk
+import pickle
+import tkinter.messagebox
 
 window = tk.Tk()
 window.title('Welcome to Noelop Python')
@@ -16,13 +18,37 @@ var_username = tk.StringVar()
 entry_username = tk.Entry(window,textvariable=var_username).place(x=160,y=150)
 var_username.set('example@python.com')
 var_password = tk.StringVar()
-entry_password = tk.Entry(window,textvariable=var_password).place(x=160,y=200)
-
-btn_login = tk.Button(window, text='login', command='user_login').place(x=170,y=230)
-btn_signup = tk.Button(window, text='sign up', command='user_signup').place(x=270,y=230)
+entry_password = tk.Entry(window,textvariable=var_password,show='*').place(x=160,y=200)
 
 def user_login():
-    pass
+    
+    usr_name = var_username.get()
+    usr_pwd = var_password.get()
+    try:
+        with open('user_info_file.pickle','rb') as user_file:
+            user_info = pickle.load(user_file)
+    except FileNotFoundError:
+        with open('user_info_file.pickle','wb') as user_file:
+            user_info = {'admin': 'admin'}
+            pickle.dump(user_info, user_file)
+    if usr_name in user_info:
+        if usr_pwd == user_info[usr_name]:
+            tk.messagebox.showinfo(title='Welcome', message='How are you? ' + usr_name)
+        else:
+            tk.messagebox.showerror(message='Error, your password is wrong, try again.')
+            var_password.set('')
+    else:
+        is_sign_up = tk.messagebox.askyesno(title='Welcome',
+                               message='Your user name is not registered. Sign up today?')
+        if is_sign_up:
+            user_signup()
+        else:
+            pass
+        
 def user_signup():
-    pass
+    tk.messagebox.showinfo(message='user_signup')
+
+btn_login = tk.Button(window, text='login', command=user_login).place(x=170,y=230)
+btn_signup = tk.Button(window, text='sign up', command=user_signup).place(x=270,y=230)
+
 window.mainloop()
