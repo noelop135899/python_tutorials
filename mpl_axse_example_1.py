@@ -19,7 +19,7 @@ ax3.plot(x,y1,'r')
 
 ax1.set_xlabel('Label X')
 ax1.set_ylabel('Label Y')
-ax2.set_ylabel('Label twinx Y2')
-ax3.set_title('AX1')
+ax2.set_ylabel('Label Y TWINX')
+ax3.set_title('AXES_1')
 
 plt.show()
