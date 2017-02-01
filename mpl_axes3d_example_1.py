@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+import mpl_toolkits.mplot3d.axes3d as p3
+import matplotlib.animation as animation
 
 X = np.arange(-4,4,0.25)
 Y = np.arange(-4,4,0.25)
@@ -8,38 +9,26 @@ X,Y = np.meshgrid(X,Y)
 R = np.sqrt(X**2 + Y**2)
 Z = np.sin(R)
 
-fig = plt.figure(num='Axes3D')
-ax = Axes3D(fig)
+fig= plt.figure()
+ax = p3.Axes3D(fig)
+
+#line = ax.plot_surface(X,Y,Z,rstride=1,cstride=1,cmap=plt.get_cmap('rainbow'))
 
 ax.plot_surface(X,Y,Z,rstride=1,cstride=1,cmap=plt.get_cmap('rainbow'))
-"""
-============= ================================================
-        Argument      Description
-        ============= ================================================
-        *X*, *Y*, *Z* Data values as 2D arrays
-        *rstride*     Array row stride (step size), defaults to 10
-        *cstride*     Array column stride (step size), defaults to 10
-        *color*       Color of the surface patches
-        *cmap*        A colormap for the surface patches.
-        *facecolors*  Face colors for the individual patches
-        *norm*        An instance of Normalize to map values to colors
-        *vmin*        Minimum value to map
-        *vmax*        Maximum value to map
-        *shade*       Whether to shade the facecolors
-        ============= ================================================
-"""
+
 ax.contourf(X,Y,Z,zdir='z',offset=-2,cmap=plt.get_cmap('rainbow'))
-"""
-==========  ================================================
-        Argument    Description
-        ==========  ================================================
-        *X*, *Y*,   Data values as numpy.arrays
-        *Z*
-        *zdir*      The direction to use: x, y or z (default)
-        *offset*    If specified plot a projection of the filled contour
-                    on this position in plane normal to zdir
-        ==========  ================================================
-"""
+
 ax.set_zlim(-2,2)
+
+"""
+def animate(i):
+        line.set_zdata(np.sin(X+i/10.0))
+        return line,
+def init():
+        line.set_zdata(np.sin(X))
+        return line,
+
+#ani = animation.FuncAnimation(fig=fig,func=animate,frames=100,init_func=init,interval=20,blit=False)
+"""
 
 plt.show()
