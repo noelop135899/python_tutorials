@@ -46,6 +46,7 @@ def main(_):
         tf.gfile.DeleteRecursively(FLAGS.train_dir)
     tf.gfile.MakeDirs(FLAGS.train_dir)
     print('done')
+    """"""
 
 
 if __name__ == '__main__':
