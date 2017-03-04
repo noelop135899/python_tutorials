@@ -43,10 +43,14 @@ def read_line(file):
 
 def compute_accuracy(v_xs, v_ys):
     global prediction
-    pre_ys = sess.run(prediction, feed_dict={xs:v_xs})
+    pre_ys = sess.run(prediction, feed_dict={xs:v_xs, ys:v_ys})
+    #v_ys = np.array(v_ys)
+    #print(type(pre_ys))
+    #print(type(v_ys))
+    #print(np.shape(pre_ys),'\n',np.shape(v_ys))
     correct_prediction = tf.equal(tf.argmax(pre_ys,1), tf.argmax(v_ys,1))#數值最大的，是否相等
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    result = sess.run(accuracy, feed_dict={ys:v_ys})
+    result = sess.run(accuracy, feed_dict={xs:v_xs, ys:v_ys})
     return result
 
 
@@ -62,8 +66,8 @@ train_X = np.delete(train_X,np.s_[57,57],axis=1)
 #print(train_y)
 #print(train_X[0],'\n',train_y[0])
 
-pre = add_layer(xs, 57, 100, activation_function=tf.nn.sigmoid)
-prediction = add_layer(pre, 100, 2, activation_function=tf.nn.softmax)
+pre = add_layer(xs, 57, 10, activation_function=tf.nn.sigmoid)
+prediction = add_layer(pre, 10, 2, activation_function=tf.nn.softmax)
 
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),reduction_indices=[1]))  # loss
 train_step = tf.train.GradientDescentOptimizer(0.1).minimize(cross_entropy)
@@ -74,14 +78,14 @@ init = tf.global_variables_initializer()
 
 sess.run(init)
 
-for i in range(100):
+for i in range(1000):
     sess.run(train_step, feed_dict={xs: train_X, ys: train_y})
     if i % 100 == 0:
         #saver.save(sess, 'train_saver')  # 存取訓練數據
         #print('saver:',i)
-        #accuracy = sess.run(prediction,feed_dict={xs: train_X})
+        #print(sess.run(prediction,feed_dict={xs: train_X}))
         #result = compute_accuracy(accuracy)
-        #print(compute_accuracy(train_X,train_y))# test 測試
+        print(compute_accuracy(train_X,train_y))# test 測試
         #print(compute_accuracy(test_X))# test 測試
         pass
 #print(len(result))

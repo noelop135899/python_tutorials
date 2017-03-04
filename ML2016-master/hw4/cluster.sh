@@ -1,3 +1,8 @@
-#!/bin/sh
-
-THEANO_FLAGS=device=gpu,floatX=float32 python3 cluster.py "$1/title_StackOverflow.txt" "$1/check_index.csv" $2
+#!/bin/bash
+dir=$1
+desh=${dir: -1}
+if [ "$desh" != "/" ]; then
+	dir="$1/"
+fi
+python2.7 word2vec_unsupervised.py --mode "test" --title_doc $dir"title_StackOverflow.txt" --pred_pairs $dir"check_index.csv" \
+--content $dir"docs.txt" --pred_out $2

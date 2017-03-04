@@ -1,3 +1,2 @@
-#!/bin/sh
-
-python3 train.py $1 $2
+#!/bin/bash
+python ./logistic_regression.py --train_dat $1 --model $2

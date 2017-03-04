@@ -1,3 +1,7 @@
-#!/bin/sh
-
-THEANO_FLAGS=device=gpu,floatX=float32 python3 CNN_train.py "$1/all_label.p" "$1/all_unlabel.p" $2
+#!/bin/bash
+dir=$1
+desh=${dir: -1}
+if [ "$desh" != "/" ]; then
+	dir="$1/"
+fi
+python ./cnn.py --label_dat "$1all_label.p" --unlabel_dat "$1all_unlabel.p" --test_dat "$1test.p" --model $2 --mtype "train"

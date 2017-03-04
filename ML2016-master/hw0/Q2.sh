@@ -1,2 +1,2 @@
-#!/usr/bin/env sh
-python pB.py $1
+#!/bin/bash
+python q2.py $1
